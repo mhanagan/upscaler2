@@ -1,0 +1,1 @@
+export type ProcessStep = 'upload' | 'upscaling' | 'export' 
