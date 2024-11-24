@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import { UploadDropzone } from '@bytescale/upload-widget-react'
 import * as Bytescale from "@bytescale/upload-widget"
 import Header from '@/components/layout/Header'
@@ -23,6 +24,17 @@ export default function ImageUpscaler() {
     styles: {
       colors: {
         primary: '#3B82F6'
+      }
+    },
+    editor: {
+      images: {
+        preview: true
+      }
+    },
+    layout: 'modal',
+    locale: {
+      modal: {
+        title: 'Upload Image'
       }
     }
   }
@@ -62,8 +74,8 @@ export default function ImageUpscaler() {
       } else {
         throw new Error(data.error || 'Failed to process image')
       }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred')
+    } catch {
+      setError('Failed to process image')
       setCurrentStep('upload')
       setProgress(0)
     }
@@ -85,7 +97,7 @@ export default function ImageUpscaler() {
       
       document.body.removeChild(link)
       window.URL.revokeObjectURL(url)
-    } catch (err) {
+    } catch {
       setError('Failed to download image')
     }
   }
@@ -122,24 +134,32 @@ export default function ImageUpscaler() {
 
       {processedImage && (
         <div className="mt-8 flex flex-col items-center gap-4">
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+          <div className="grid w-full grid-cols-1 gap-8 md:grid-cols-2">
             {originalImage && (
               <div className="rounded-lg bg-[#2A2A2A] p-4">
                 <h3 className="mb-4 text-center text-lg">Original</h3>
-                <img 
-                  src={originalImage} 
-                  alt="Original" 
-                  className="rounded-lg"
-                />
+                <div className="relative h-[400px] w-full">
+                  <Image 
+                    src={originalImage}
+                    alt="Original"
+                    fill
+                    className="rounded-lg object-contain"
+                    unoptimized
+                  />
+                </div>
               </div>
             )}
             <div className="rounded-lg bg-[#2A2A2A] p-4">
               <h3 className="mb-4 text-center text-lg">Upscaled</h3>
-              <img 
-                src={processedImage} 
-                alt="Upscaled" 
-                className="rounded-lg"
-              />
+              <div className="relative h-[400px] w-full">
+                <Image 
+                  src={processedImage}
+                  alt="Upscaled"
+                  fill
+                  className="rounded-lg object-contain"
+                  unoptimized
+                />
+              </div>
             </div>
           </div>
           <button
