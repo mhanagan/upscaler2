@@ -30,12 +30,6 @@ export default function ImageUpscaler() {
       images: {
         preview: true
       }
-    },
-    layout: 'modal',
-    locale: {
-      modal: {
-        title: 'Upload Image'
-      }
     }
   }
 
