@@ -11,6 +11,11 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'replicate.delivery',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'picsum.photos',
+        pathname: '/**',
       }
     ],
   },
