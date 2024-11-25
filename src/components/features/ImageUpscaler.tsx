@@ -20,8 +20,12 @@ export const ImageUpscaler: React.FC = () => {
   const [processedImage, setProcessedImage] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
 
-  const options: Bytescale.UploadWidgetConfig = {
-    apiKey: process.env.NEXT_PUBLIC_BYTESCALE_API_KEY!,
+  const uploadConfig = {
+    apiKey: process.env.NEXT_PUBLIC_BYTESCALE_API_KEY ?? "",
+  }
+
+  const options = {
+    ...uploadConfig,
     maxFileCount: 1,
     mimeTypes: ['image/jpeg', 'image/png'],
     maxFileSizeBytes: 10 * 1024 * 1024,
@@ -114,6 +118,7 @@ export const ImageUpscaler: React.FC = () => {
           'div',
           { className: "p-6" },
           React.createElement(UploadDropzone, {
+            ...uploadConfig,
             options,
             onUpdate: ({ uploadedFiles }: UploadUpdateEvent) => {
               if (uploadedFiles.length > 0) {

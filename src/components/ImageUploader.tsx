@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import { UploadDropzone } from '@bytescale/upload-widget-react'
-import * as Bytescale from "@bytescale/upload-widget"
+import type { UploadWidgetResult } from '@bytescale/upload-widget'
 import { Download } from 'lucide-react'
 import { Card } from './ui/card'
 import { Button } from './ui/button'
@@ -11,7 +11,7 @@ import { ProcessSteps } from './ProcessSteps'
 import { ImageComparison } from './ImageComparison'
 
 interface UploadUpdateEvent {
-  uploadedFiles: Bytescale.UploadWidgetResult[]
+  uploadedFiles: UploadWidgetResult[]
 }
 
 export const ImageUploader: React.FC = () => {
@@ -21,8 +21,8 @@ export const ImageUploader: React.FC = () => {
   const [processedImage, setProcessedImage] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
 
-  const options: Bytescale.UploadWidgetConfig = {
-    apiKey: process.env.NEXT_PUBLIC_BYTESCALE_API_KEY!,
+  const widgetConfig = {
+    apiKey: process.env.NEXT_PUBLIC_BYTESCALE_API_KEY ?? "",
     maxFileCount: 1,
     mimeTypes: ['image/jpeg', 'image/png'],
     maxFileSizeBytes: 10 * 1024 * 1024,
@@ -39,7 +39,7 @@ export const ImageUploader: React.FC = () => {
     }
   }
 
-  const handleUploadComplete = async (files: Bytescale.UploadWidgetResult[]) => {
+  const handleUploadComplete = async (files: UploadWidgetResult[]) => {
     try {
       setError(null)
       setCurrentStep('processing')
@@ -115,7 +115,7 @@ export const ImageUploader: React.FC = () => {
           'div',
           { className: "p-6" },
           React.createElement(UploadDropzone, {
-            options,
+            options: widgetConfig,
             onUpdate: ({ uploadedFiles }: UploadUpdateEvent) => {
               if (uploadedFiles.length > 0) {
                 handleUploadComplete(uploadedFiles)

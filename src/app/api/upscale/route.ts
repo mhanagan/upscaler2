@@ -1,18 +1,15 @@
 import { NextResponse } from 'next/server'
 import Replicate from 'replicate'
 
+if (!process.env.REPLICATE_API_TOKEN) {
+  throw new Error('Missing Replicate API token')
+}
+
 const replicate = new Replicate({
   auth: process.env.REPLICATE_API_TOKEN,
 })
 
 export async function POST(request: Request) {
-  if (!process.env.REPLICATE_API_TOKEN) {
-    return NextResponse.json(
-      { success: false, error: 'Replicate API token not configured' },
-      { status: 500 }
-    )
-  }
-
   try {
     const { imageUrl } = await request.json()
 
@@ -23,25 +20,31 @@ export async function POST(request: Request) {
       )
     }
 
-    const prediction = await replicate.predictions.create({
-      version: "7de2ea26c616d5bf2245ad0d5e24f0ff9a6204578a5c876db53142edd9d2cd56",
-      input: {
-        image: imageUrl,
-        codeformer_fidelity: 0.7
+    // Using Real-ESRGAN with optimized settings
+    const output = await replicate.run(
+      "nightmareai/real-esrgan:42fed1c4974146d4d2414e2be2c5277c7fcf05fcc3a73abf41610695738c1d7b",
+      {
+        input: {
+          image: imageUrl,
+          scale: 2,
+          face_enhance: false,
+          tile: 0
+        }
       }
-    })
-
-    const output = await replicate.wait(prediction)
+    )
 
     return NextResponse.json({ 
       success: true, 
-      url: output.output
+      url: output
     })
 
   } catch (error) {
     console.error('Error:', error)
     return NextResponse.json(
-      { success: false, error: 'Failed to process image' },
+      { 
+        success: false, 
+        error: 'Failed to process image. Please try a smaller image or wait a moment and try again.'
+      },
       { status: 500 }
     )
   }
