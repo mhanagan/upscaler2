@@ -38,6 +38,7 @@ export const ProcessSteps: React.FC<ProcessStepsProps> = React.memo(({ currentSt
       const Icon = step.icon
       const isActive = currentStep === step.id
       const isCompleted = currentStep === 'complete' && step.id === 'complete'
+      const isProcessing = isActive && step.id === 'processing'
 
       return React.createElement(
         Card,
@@ -57,10 +58,16 @@ export const ProcessSteps: React.FC<ProcessStepsProps> = React.memo(({ currentSt
               CardTitle,
               { className: "flex items-center gap-2 text-lg" },
               [
-                React.createElement(Icon, {
-                  key: "icon",
-                  className: `h-5 w-5 ${isActive || isCompleted ? 'text-purple-400' : 'text-gray-400'}`
-                }),
+                React.createElement(
+                  'div',
+                  {
+                    key: "icon-wrapper",
+                    className: isProcessing ? 'animate-spin' : ''
+                  },
+                  React.createElement(Icon, {
+                    className: `h-5 w-5 ${isActive || isCompleted ? 'text-purple-400' : 'text-gray-400'}`
+                  })
+                ),
                 step.title
               ]
             )
@@ -77,19 +84,33 @@ export const ProcessSteps: React.FC<ProcessStepsProps> = React.memo(({ currentSt
                 },
                 step.description
               ),
-              step.id === 'processing' && isActive && React.createElement(
+              isProcessing && React.createElement(
                 'div',
-                {
-                  key: "progress-bar",
-                  className: "mt-4 h-1 w-full rounded-full bg-gray-700"
-                },
-                React.createElement(
-                  'div',
-                  {
-                    className: "h-full rounded-full bg-purple-500 transition-all duration-300",
-                    style: { width: `${progress}%` }
-                  }
-                )
+                { key: "progress-container", className: "mt-4 space-y-2" },
+                [
+                  React.createElement(
+                    'div',
+                    {
+                      key: "progress-bar",
+                      className: "h-1 w-full rounded-full bg-gray-700 overflow-hidden"
+                    },
+                    React.createElement(
+                      'div',
+                      {
+                        className: "h-full rounded-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-300",
+                        style: { width: `${progress}%` }
+                      }
+                    )
+                  ),
+                  React.createElement(
+                    'p',
+                    {
+                      key: "progress-text",
+                      className: "text-xs text-gray-400 text-right"
+                    },
+                    `${progress}%`
+                  )
+                ]
               )
             ]
           )
@@ -99,4 +120,6 @@ export const ProcessSteps: React.FC<ProcessStepsProps> = React.memo(({ currentSt
   )
 })
 
-ProcessSteps.displayName = 'ProcessSteps' 
+ProcessSteps.displayName = 'ProcessSteps'
+
+export default ProcessSteps 
