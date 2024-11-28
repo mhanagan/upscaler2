@@ -10,10 +10,10 @@ const replicate = new Replicate({
 })
 
 // Constants for image constraints
-const MAX_IMAGE_SIZE = 2048 // maximum dimension in pixels
+const MAX_TOTAL_PIXELS = 2_096_704 // maximum total pixels based on GPU memory
 const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB in bytes
 
-async function validateImage(url: string): Promise<void> {
+async function validateImage(url: string): Promise<string> {
   try {
     const response = await fetch(url)
     if (!response.ok) {
@@ -29,6 +29,30 @@ async function validateImage(url: string): Promise<void> {
     if (contentLength && parseInt(contentLength) > MAX_FILE_SIZE) {
       throw new Error('File size exceeds 5MB limit')
     }
+
+    // Load image to check dimensions
+    const arrayBuffer = await response.arrayBuffer()
+    const buffer = Buffer.from(arrayBuffer)
+    
+    // Use sharp to get image dimensions
+    const sharp = (await import('sharp')).default
+    const metadata = await sharp(buffer).metadata()
+    
+    if (metadata.width && metadata.height) {
+      const totalPixels = metadata.width * metadata.height
+      if (totalPixels > MAX_TOTAL_PIXELS) {
+        throw new Error(
+          `Image dimensions (${metadata.width}x${metadata.height}) exceed the maximum allowed pixel count. ` +
+          `Total pixels: ${totalPixels.toLocaleString()}, Maximum allowed: ${MAX_TOTAL_PIXELS.toLocaleString()}. ` +
+          `Please resize your image to smaller dimensions.`
+        )
+      }
+    }
+
+    // Extract format from content-type (e.g., 'image/jpeg' -> 'jpeg')
+    const format = contentType.split('/')[1] || 'jpeg'
+    // Normalize format names
+    return format === 'jpeg' ? 'jpg' : format
   } catch (error: any) {
     console.error('Image validation error:', error)
     throw new Error(`Failed to validate image: ${error.message}`)
@@ -50,9 +74,12 @@ export async function POST(request: Request) {
       )
     }
 
-    // Validate image
+    // Validate image and get format
     try {
-      await validateImage(imageUrl)
+      const inputFormat = await validateImage(imageUrl)
+      
+      // Use input format or fallback to jpg if format is not supported
+      const outputFormat = ['jpg', 'png'].includes(inputFormat) ? inputFormat : 'jpg'
 
       // Proceed with upscaling
       const output = await replicate.run(
@@ -62,7 +89,8 @@ export async function POST(request: Request) {
             image: imageUrl,
             scale: 2,
             face_enhance: false,
-            tile: 0
+            tile: 0,
+            output_format: outputFormat
           }
         }
       )
@@ -73,7 +101,8 @@ export async function POST(request: Request) {
 
       return NextResponse.json({ 
         success: true, 
-        url: output
+        url: output,
+        format: outputFormat
       })
 
     } catch (error: any) {
@@ -102,8 +131,10 @@ export async function POST(request: Request) {
           message: error.message,
           type: error.name,
           requirements: {
+            maxTotalPixels: MAX_TOTAL_PIXELS.toLocaleString(),
             maxFileSize: '5MB',
-            allowedTypes: 'image/*'
+            allowedTypes: 'image/*',
+            recommendation: 'For example, a 1440x1440 image would work well'
           },
           recommendation: 'Please ensure your image meets the requirements and try again'
         }

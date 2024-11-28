@@ -57,7 +57,12 @@ export default function HomePage() {
                 React.createElement(
                   'p',
                   { key: "specs-details" },
-                  "Maximum size: 2048x2048 pixels • File size limit: 5MB"
+                  "Maximum dimensions: 1448x1448 pixels • File size limit: 5MB"
+                ),
+                React.createElement(
+                  'p',
+                  { key: "specs-note", className: "text-xs mt-1 text-blue-200/60" },
+                  "Note: Total pixel count must not exceed 2,096,704 (e.g., 1448×1448 or 1800×1164)"
                 )
               ]
             )
