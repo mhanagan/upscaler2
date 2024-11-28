@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import Image from 'next/image'
 import dynamic from 'next/dynamic'
 import type { ComponentType } from 'react'
 
@@ -26,6 +27,24 @@ export default function HomePage() {
           'div',
           { className: "mb-12 text-center", key: "header" },
           [
+            React.createElement(
+              'div',
+              { 
+                className: "flex justify-center mb-8",
+                key: "logo"
+              },
+              React.createElement(Image, {
+                src: "/logo.png",
+                alt: "Logo",
+                width: 600,
+                height: 200,
+                style: {
+                  width: '100%',
+                  height: 'auto',
+                  maxWidth: '600px'
+                }
+              })
+            ),
             React.createElement(
               'h1',
               { 
