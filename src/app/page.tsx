@@ -41,6 +41,25 @@ export default function HomePage() {
                 key: "description"
               },
               "Transform your images with AI-powered upscaling"
+            ),
+            React.createElement(
+              'div',
+              {
+                className: "mt-4 text-sm text-blue-200/80",
+                key: "specs"
+              },
+              [
+                React.createElement(
+                  'p',
+                  { key: "specs-title", className: "font-medium" },
+                  "Image Requirements:"
+                ),
+                React.createElement(
+                  'p',
+                  { key: "specs-details" },
+                  "Maximum size: 2048x2048 pixels • File size limit: 5MB"
+                )
+              ]
             )
           ]
         ),
