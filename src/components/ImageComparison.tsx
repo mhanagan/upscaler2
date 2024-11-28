@@ -13,7 +13,7 @@ interface ImageComparisonProps {
 export const ImageComparison: React.FC<ImageComparisonProps> = React.memo(({ originalImage, processedImage }) => {
   return React.createElement(
     'div',
-    { className: "grid gap-6 md:grid-cols-2" },
+    { className: "grid gap-8 md:grid-cols-2" },
     [
       React.createElement(
         Card,
@@ -25,14 +25,14 @@ export const ImageComparison: React.FC<ImageComparisonProps> = React.memo(({ ori
           React.createElement(
             CardHeader,
             { key: "header" },
-            React.createElement(CardTitle, null, "Original")
+            React.createElement(CardTitle, { className: "text-2xl" }, "Original")
           ),
           React.createElement(
             CardContent,
-            { key: "content" },
+            { key: "content", className: "p-8" },
             React.createElement(
               'div',
-              { className: "relative aspect-square w-full overflow-hidden rounded-lg" },
+              { className: "relative aspect-square w-full overflow-hidden rounded-lg h-[500px]" },
               React.createElement(Image, {
                 src: originalImage,
                 alt: "Original",
@@ -56,7 +56,7 @@ export const ImageComparison: React.FC<ImageComparisonProps> = React.memo(({ ori
             { key: "header" },
             React.createElement(
               CardTitle,
-              { className: "flex items-center gap-2" },
+              { className: "flex items-center gap-2 text-2xl" },
               [
                 React.createElement(Wand2, { 
                   className: "h-6 w-6 text-purple-400",
@@ -68,10 +68,10 @@ export const ImageComparison: React.FC<ImageComparisonProps> = React.memo(({ ori
           ),
           React.createElement(
             CardContent,
-            { key: "content" },
+            { key: "content", className: "p-8" },
             React.createElement(
               'div',
-              { className: "relative aspect-square w-full overflow-hidden rounded-lg" },
+              { className: "relative aspect-square w-full overflow-hidden rounded-lg h-[500px]" },
               React.createElement(Image, {
                 src: processedImage,
                 alt: "Upscaled",

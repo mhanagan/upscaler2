@@ -48,7 +48,7 @@ export default function HomePage() {
             React.createElement(
               'h1',
               { 
-                className: "mb-4 bg-gradient-to-r from-white to-cyan-300 bg-clip-text text-5xl font-bold text-transparent",
+                className: "mb-6 bg-gradient-to-r from-white to-cyan-300 bg-clip-text text-5xl font-bold text-transparent",
                 key: "title"
               },
               "AI Image Upscaler"
