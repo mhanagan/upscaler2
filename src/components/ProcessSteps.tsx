@@ -5,6 +5,7 @@ import { Loader2 } from 'lucide-react'
 
 interface ProcessStepsProps {
   currentStep: 'upload' | 'processing' | 'complete'
+  progress?: number
 }
 
 export const ProcessSteps: React.FC<ProcessStepsProps> = ({ currentStep }) => {
