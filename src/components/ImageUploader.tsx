@@ -1,9 +1,9 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import Image from 'next/image'
 import { UploadDropzone } from '@bytescale/upload-widget-react'
-import type { UploadWidgetResult } from '@bytescale/upload-widget'
+import type { UploadWidgetResult, UploadWidget } from '@bytescale/upload-widget'
 import { Download } from 'lucide-react'
 import { Card } from './ui/card'
 import { Button } from './ui/button'
@@ -20,6 +20,7 @@ export const ImageUploader: React.FC = () => {
   const [originalImage, setOriginalImage] = useState<string | null>(null)
   const [processedImage, setProcessedImage] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const uploadWidgetRef = useRef<UploadWidget | null>(null)
 
   const widgetConfig = {
     apiKey: process.env.NEXT_PUBLIC_BYTESCALE_API_KEY ?? "",
@@ -61,23 +62,29 @@ export const ImageUploader: React.FC = () => {
         body: JSON.stringify({ imageUrl }),
       })
 
-      if (!response.ok) {
-        throw new Error('Failed to process image')
-      }
-
       const data = await response.json()
       
       if (data.success) {
         setProcessedImage(data.url)
         setCurrentStep('complete')
         setProgress(100)
+        const uploadWidget = document.querySelector('.upl-file-entry-remove')
+        if (uploadWidget) {
+          (uploadWidget as HTMLElement).click()
+        }
       } else {
-        throw new Error(data.error || 'Failed to process image')
+        const errorMessage = data.details?.message || data.error || 'Failed to process image'
+        throw new Error(errorMessage.replace('Failed to validate image: ', ''))
       }
-    } catch (error) {
-      setError('Failed to process image')
+    } catch (error: any) {
+      setError(error.message || 'Failed to process image')
       setCurrentStep('upload')
       setProgress(0)
+      
+      const uploadWidget = document.querySelector('.upl-file-entry-remove')
+      if (uploadWidget) {
+        (uploadWidget as HTMLElement).click()
+      }
     }
   }
 
@@ -97,6 +104,15 @@ export const ImageUploader: React.FC = () => {
       
       document.body.removeChild(link)
       window.URL.revokeObjectURL(url)
+      
+      setCurrentStep('upload')
+      setProgress(0)
+      
+      const uploadWidget = document.querySelector('.upl-file-entry-remove')
+      if (uploadWidget) {
+        (uploadWidget as HTMLElement).click()
+      }
+      
     } catch {
       setError('Failed to download image')
     }
