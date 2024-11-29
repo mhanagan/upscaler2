@@ -24,6 +24,36 @@ export default function RootLayout({ children }: RootLayoutProps) {
             name: 'viewport', 
             content: 'width=device-width, initial-scale=1',
             key: 'viewport'
+          }),
+          React.createElement('link', {
+            rel: 'apple-touch-icon',
+            sizes: '180x180',
+            href: '/apple-touch-icon.png',
+            key: 'apple-touch-icon'
+          }),
+          React.createElement('link', {
+            rel: 'icon',
+            type: 'image/png',
+            sizes: '32x32',
+            href: '/favicon-32x32.png',
+            key: 'favicon-32'
+          }),
+          React.createElement('link', {
+            rel: 'icon',
+            type: 'image/png',
+            sizes: '16x16',
+            href: '/favicon-16x16.png',
+            key: 'favicon-16'
+          }),
+          React.createElement('link', {
+            rel: 'icon',
+            href: '/favicon.ico',
+            key: 'favicon'
+          }),
+          React.createElement('link', {
+            rel: 'manifest',
+            href: '/site.webmanifest',
+            key: 'manifest'
           })
         ]
       ),
