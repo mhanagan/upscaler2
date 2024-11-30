@@ -17,23 +17,33 @@ export const Lightbox: React.FC<LightboxProps> = ({ image, onClose }) => {
     },
     [
       React.createElement(
-        'button',
+        'div',
         {
-          className: "absolute right-4 top-4 text-white hover:text-gray-300",
-          onClick: onClose,
-          key: "close-button"
+          className: "relative max-h-[90vh] max-w-[90vw] overflow-hidden rounded-lg bg-black/50",
+          key: "lightbox-container",
+          onClick: (e) => e.stopPropagation()
         },
-        React.createElement(X, { className: "h-8 w-8" })
-      ),
-      React.createElement(
-        'img',
-        {
-          src: image,
-          alt: "Upscaled Image",
-          className: "max-h-[90vh] max-w-[90vw] object-contain",
-          onClick: (e) => e.stopPropagation(),
-          key: "lightbox-image"
-        }
+        [
+          React.createElement(
+            'button',
+            {
+              className: "absolute right-2 top-2 text-white/80 hover:text-white",
+              onClick: onClose,
+              key: "close-button"
+            },
+            React.createElement(X, { className: "h-6 w-6" })
+          ),
+          React.createElement(
+            'img',
+            {
+              src: image,
+              alt: "Upscaled Image",
+              className: "h-auto w-auto object-contain",
+              onClick: (e) => e.stopPropagation(),
+              key: "lightbox-image"
+            }
+          )
+        ]
       )
     ]
   )

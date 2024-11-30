@@ -77,7 +77,7 @@ export const ImageComparison: React.FC<ImageComparisonProps> = React.memo(({ ori
                   React.createElement(
                     'p',
                     { 
-                      className: "mt-1 text-sm text-gray-400",
+                      className: "mt-4 text-center text-sm text-gray-400",
                       key: "click-note"
                     },
                     "(Click to View)"
@@ -87,17 +87,27 @@ export const ImageComparison: React.FC<ImageComparisonProps> = React.memo(({ ori
               React.createElement(
                 CardContent,
                 { key: "content", className: "p-8" },
-                React.createElement(
-                  'div',
-                  { className: "relative aspect-square w-full overflow-hidden rounded-lg h-[500px]" },
-                  React.createElement(Image, {
-                    src: processedImage,
-                    alt: "Upscaled",
-                    fill: true,
-                    className: "object-contain",
-                    unoptimized: true
-                  })
-                )
+                [
+                  React.createElement(
+                    'div',
+                    { className: "relative aspect-square w-full overflow-hidden rounded-lg h-[500px]" },
+                    React.createElement(Image, {
+                      src: processedImage,
+                      alt: "Upscaled",
+                      fill: true,
+                      className: "object-contain",
+                      unoptimized: true
+                    })
+                  ),
+                  React.createElement(
+                    'p',
+                    { 
+                      className: "mt-4 text-center text-sm text-gray-400",
+                      key: "click-note"
+                    },
+                    "(Click to View)"
+                  )
+                ]
               )
             ]
           )
