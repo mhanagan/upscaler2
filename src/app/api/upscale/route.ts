@@ -99,7 +99,7 @@ export async function POST(request: Request) {
           }
         }
       )
-      console.log('Replicate processing complete:', output?.substring(0, 50) + '...')  // Debug log
+      console.log('Replicate processing complete:', typeof output === 'string' ? output.substring(0, 50) + '...' : output)
 
       if (!output) {
         throw new Error('Replicate API returned no output')
