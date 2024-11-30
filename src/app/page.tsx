@@ -37,8 +37,9 @@ export default function HomePage() {
                 src: "/logo.png",
                 alt: "Logo",
                 priority: true,
-                width: 0,
-                height: 0,
+                width: 600,
+                height: 200,
+                quality: 100,
                 style: {
                   width: '100%',
                   height: 'auto',

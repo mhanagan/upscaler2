@@ -28,7 +28,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           }),
           React.createElement('meta', {
             httpEquiv: 'Content-Security-Policy',
-            content: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' bytescale.com *.bytescale.com vercel.live *.vercel.live; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: replicate.delivery *.replicate.delivery upcdn.io *.upcdn.io bytescale.com *.bytescale.com; connect-src 'self' *.replicate.delivery api.bytescale.com *.bytescale.com *.amazonaws.com *.s3.dualstack.us-east-1.amazonaws.com; frame-src 'self' upcdn.io *.upcdn.io bytescale.com *.bytescale.com;",
+            content: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' bytescale.com *.bytescale.com vercel.live *.vercel.live; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: replicate.delivery *.replicate.delivery upcdn.io *.upcdn.io bytescale.com *.bytescale.com; connect-src 'self' *.replicate.delivery api.bytescale.com *.bytescale.com *.amazonaws.com *.s3.dualstack.us-east-1.amazonaws.com; frame-src 'self' upcdn.io *.upcdn.io bytescale.com *.bytescale.com vercel.live *.vercel.live;",
             key: 'csp'
           }),
           React.createElement('link', {
