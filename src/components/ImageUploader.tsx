@@ -62,19 +62,17 @@ export const ImageUploader: React.FC = () => {
         body: JSON.stringify({ imageUrl }),
       })
 
-      const data = await response.json()
+      const data = await response.json().catch(() => ({
+        success: false,
+        error: 'Invalid server response'
+      }))
       
       if (data.success) {
         setProcessedImage(data.url)
         setCurrentStep('complete')
         setProgress(100)
-        const uploadWidget = document.querySelector('.upl-file-entry-remove')
-        if (uploadWidget) {
-          (uploadWidget as HTMLElement).click()
-        }
       } else {
-        const errorMessage = data.details?.message || data.error || 'Failed to process image'
-        throw new Error(errorMessage.replace('Failed to validate image: ', ''))
+        throw new Error(data.error || 'Failed to process image')
       }
     } catch (error: any) {
       setError(error.message || 'Failed to process image')
