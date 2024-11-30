@@ -28,7 +28,13 @@ export default function RootLayout({ children }: RootLayoutProps) {
           }),
           React.createElement('meta', {
             httpEquiv: 'Content-Security-Policy',
-            content: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' bytescale.com *.bytescale.com vercel.live *.vercel.live; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: replicate.delivery *.replicate.delivery upcdn.io *.upcdn.io bytescale.com *.bytescale.com; connect-src 'self' *.replicate.delivery api.bytescale.com *.bytescale.com *.amazonaws.com *.s3.dualstack.us-east-1.amazonaws.com; frame-src 'self' upcdn.io *.upcdn.io bytescale.com *.bytescale.com vercel.live *.vercel.live;",
+            content: "default-src 'self'; " +
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' bytescale.com *.bytescale.com vercel.live *.vercel.live https://vercel.live; " +
+              "style-src 'self' 'unsafe-inline' https://vercel.live; " +
+              "img-src 'self' data: blob: replicate.delivery *.replicate.delivery upcdn.io *.upcdn.io bytescale.com *.bytescale.com https://vercel.live https://vercel.com; " +
+              "connect-src 'self' *.replicate.delivery api.bytescale.com *.bytescale.com *.amazonaws.com *.s3.dualstack.us-east-1.amazonaws.com https://vercel.live wss://ws-us3.pusher.com; " +
+              "frame-src 'self' upcdn.io *.upcdn.io bytescale.com *.bytescale.com vercel.live *.vercel.live https://vercel.live; " +
+              "font-src 'self' https://vercel.live https://assets.vercel.com;",
             key: 'csp'
           }),
           React.createElement('link', {
