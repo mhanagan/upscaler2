@@ -62,27 +62,17 @@ export const ImageComparison: React.FC<ImageComparisonProps> = React.memo(({ ori
               React.createElement(
                 CardHeader,
                 { key: "header" },
-                [
-                  React.createElement(
-                    CardTitle,
-                    { className: "flex items-center gap-2 text-2xl" },
-                    [
-                      React.createElement(Wand2, { 
-                        className: "h-6 w-6 text-purple-400",
-                        key: "icon"
-                      }),
-                      "Upscaled"
-                    ]
-                  ),
-                  React.createElement(
-                    'p',
-                    { 
-                      className: "mt-4 text-center text-sm text-gray-400",
-                      key: "click-note"
-                    },
-                    "(Click to View)"
-                  )
-                ]
+                React.createElement(
+                  CardTitle,
+                  { className: "flex items-center gap-2 text-2xl" },
+                  [
+                    React.createElement(Wand2, { 
+                      className: "h-6 w-6 text-purple-400",
+                      key: "icon"
+                    }),
+                    "Upscaled"
+                  ]
+                )
               ),
               React.createElement(
                 CardContent,
