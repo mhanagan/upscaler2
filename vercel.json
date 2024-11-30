@@ -4,7 +4,7 @@
   "installCommand": "npm install",
   "framework": "nextjs",
   "functions": {
-    "/api/upscale": {
+    "api/upscale": {
       "maxDuration": 60
     }
   },
