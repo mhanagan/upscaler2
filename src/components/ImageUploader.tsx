@@ -62,10 +62,22 @@ export const ImageUploader: React.FC = () => {
         body: JSON.stringify({ imageUrl }),
       })
 
-      const data = await response.json().catch(() => ({
-        success: false,
-        error: 'Invalid server response'
-      }))
+      console.log('Response status:', response.status)
+      console.log('Response headers:', Object.fromEntries(response.headers))
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      let data
+      try {
+        const text = await response.text()
+        console.log('Raw response:', text)
+        data = JSON.parse(text)
+      } catch (e) {
+        console.error('JSON parse error:', e)
+        throw new Error('Failed to parse server response')
+      }
       
       if (data.success) {
         setProcessedImage(data.url)
@@ -75,6 +87,7 @@ export const ImageUploader: React.FC = () => {
         throw new Error(data.error || 'Failed to process image')
       }
     } catch (error: any) {
+      console.error('Upload error:', error)
       setError(error.message || 'Failed to process image')
       setCurrentStep('upload')
       setProgress(0)

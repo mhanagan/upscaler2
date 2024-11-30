@@ -63,6 +63,8 @@ export async function POST(request: Request) {
   try {
     const { imageUrl } = await request.json()
 
+    console.log('Processing request for URL:', imageUrl?.substring(0, 50) + '...')  // Debug log
+
     if (!imageUrl) {
       return NextResponse.json(
         { 
@@ -70,18 +72,21 @@ export async function POST(request: Request) {
           error: 'Image URL is required',
           details: 'No image URL was provided in the request'
         },
-        { status: 400 }
+        { 
+          status: 400,
+          headers: {
+            'Content-Type': 'application/json',
+            'Cache-Control': 'no-store'
+          }
+        }
       )
     }
 
-    // Validate image and get format
     try {
       const inputFormat = await validateImage(imageUrl)
-      
-      // Use input format or fallback to jpg if format is not supported
       const outputFormat = ['jpg', 'png'].includes(inputFormat) ? inputFormat : 'jpg'
 
-      // Proceed with upscaling
+      console.log('Starting Replicate processing')  // Debug log
       const output = await replicate.run(
         "nightmareai/real-esrgan:42fed1c4974146d4d2414e2be2c5277c7fcf05fcc3a73abf41610695738c1d7b",
         {
@@ -94,6 +99,7 @@ export async function POST(request: Request) {
           }
         }
       )
+      console.log('Replicate processing complete:', output?.substring(0, 50) + '...')  // Debug log
 
       if (!output) {
         throw new Error('Replicate API returned no output')
@@ -103,11 +109,15 @@ export async function POST(request: Request) {
         success: true, 
         url: output,
         format: outputFormat
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-store'
+        }
       })
 
     } catch (error: any) {
-      console.error('Detailed error:', error)
-      // Remove the "Failed to validate" prefix from the error message
+      console.error('Processing error:', error)  // Debug log
       const errorMessage = error.message.replace('Failed to validate image: ', '')
       return NextResponse.json(
         { 
@@ -119,29 +129,33 @@ export async function POST(request: Request) {
             stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
           }
         },
-        { status: 400 }
+        { 
+          status: 400,
+          headers: {
+            'Content-Type': 'application/json',
+            'Cache-Control': 'no-store'
+          }
+        }
       )
     }
-
   } catch (error: any) {
-    console.error('Error processing request:', error)
+    console.error('Request error:', error)  // Debug log
     return NextResponse.json(
       { 
         success: false, 
         error: 'Failed to process image',
         details: {
           message: error.message,
-          type: error.name,
-          requirements: {
-            maxTotalPixels: MAX_TOTAL_PIXELS.toLocaleString(),
-            maxFileSize: '5MB',
-            allowedTypes: 'image/*',
-            recommendation: 'For example, a 1440x1440 image would work well'
-          },
-          recommendation: 'Please ensure your image meets the requirements and try again'
+          type: error.name
         }
       },
-      { status: 500 }
+      { 
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-store'
+        }
+      }
     )
   }
 } 
