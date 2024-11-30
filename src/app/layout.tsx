@@ -26,6 +26,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
             content: 'width=device-width, initial-scale=1',
             key: 'viewport'
           }),
+          React.createElement('meta', {
+            httpEquiv: 'Content-Security-Policy',
+            content: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' bytescale.com *.bytescale.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: *.replicate.delivery upcdn.io *.upcdn.io bytescale.com *.bytescale.com; connect-src 'self' *.replicate.delivery api.bytescale.com *.bytescale.com; frame-src 'self' upcdn.io *.upcdn.io bytescale.com *.bytescale.com;",
+            key: 'csp'
+          }),
           React.createElement('link', {
             rel: 'apple-touch-icon',
             sizes: '180x180',
