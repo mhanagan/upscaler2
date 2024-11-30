@@ -64,9 +64,15 @@ async function validateImage(url: string): Promise<string> {
 
 export async function POST(request: Request) {
   try {
-    const { imageUrl } = await request.json()
+    const body = await request.json()
+    const { imageUrl, userAgent, platform } = body
 
-    console.log('Processing request for URL:', imageUrl?.substring(0, 50) + '...')  // Debug log
+    // Log request details
+    console.log('Processing request:', {
+      userAgent,
+      platform,
+      imageUrl: imageUrl?.substring(0, 50) + '...'
+    })
 
     if (!imageUrl) {
       return NextResponse.json(
@@ -79,13 +85,22 @@ export async function POST(request: Request) {
           status: 400,
           headers: {
             'Content-Type': 'application/json',
-            'Cache-Control': 'no-store'
+            'Cache-Control': 'no-store',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'POST, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type, Accept'
           }
         }
       )
     }
 
     try {
+      // Pre-fetch the image to verify it's accessible
+      const imageResponse = await fetch(imageUrl)
+      if (!imageResponse.ok) {
+        throw new Error(`Failed to fetch image: ${imageResponse.statusText}`)
+      }
+
       const inputFormat = await validateImage(imageUrl)
       const outputFormat = ['jpg', 'png'].includes(inputFormat) ? inputFormat : 'jpg'
 

@@ -54,29 +54,41 @@ export const ImageUploader: React.FC = () => {
       setOriginalImage(imageUrl)
       setProgress(50)
 
+      console.log('Sending request with URL:', imageUrl)
+
       const response = await fetch('/api/upscale', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json'
         },
-        body: JSON.stringify({ imageUrl }),
+        body: JSON.stringify({ 
+          imageUrl,
+          userAgent: window.navigator.userAgent,
+          platform: window.navigator.platform
+        }),
       })
 
       console.log('Response status:', response.status)
       console.log('Response headers:', Object.fromEntries(response.headers))
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-
       let data
       try {
         const text = await response.text()
         console.log('Raw response:', text)
+        
+        if (!text) {
+          throw new Error('Empty response from server')
+        }
+        
         data = JSON.parse(text)
       } catch (e) {
-        console.error('JSON parse error:', e)
-        throw new Error('Failed to parse server response')
+        console.error('Parse error:', e)
+        throw new Error(`Failed to parse response: ${e.message}`)
+      }
+
+      if (!response.ok) {
+        throw new Error(data.error || `HTTP error! status: ${response.status}`)
       }
       
       if (data.success) {
@@ -88,6 +100,12 @@ export const ImageUploader: React.FC = () => {
       }
     } catch (error: any) {
       console.error('Upload error:', error)
+      console.error('Error details:', {
+        message: error.message,
+        stack: error.stack,
+        name: error.name
+      })
+      
       setError(error.message || 'Failed to process image')
       setCurrentStep('upload')
       setProgress(0)
