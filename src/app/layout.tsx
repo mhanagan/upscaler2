@@ -19,6 +19,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         'head',
         { key: 'head' },
         [
+          React.createElement('title', { key: 'title' }, 'UpscalR'),
           React.createElement('meta', { charSet: 'utf-8', key: 'charset' }),
           React.createElement('meta', { 
             name: 'viewport', 
