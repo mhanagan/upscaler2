@@ -93,7 +93,7 @@ export async function POST(request: Request) {
       let output: ReplicateOutput
       try {
         const timeoutPromise = new Promise((_, reject) => {
-          setTimeout(() => reject(new Error('Request timeout')), 50000) // 50 second timeout
+          setTimeout(() => reject(new Error('Request timeout')), 45000) // 45 second timeout (shorter than Vercel's 60s)
         })
         
         const replicatePromise = replicate.run(
@@ -112,7 +112,7 @@ export async function POST(request: Request) {
         output = await Promise.race([replicatePromise, timeoutPromise]) as ReplicateOutput
       } catch (error: any) {
         if (error.message === 'Request timeout') {
-          throw new Error('Image processing timed out. Please try a smaller image.')
+          throw new Error('Processing timed out. Please try a smaller image or try again.')
         }
         throw error
       }

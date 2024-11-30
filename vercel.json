@@ -3,14 +3,8 @@
   "buildCommand": "npm run build",
   "installCommand": "npm install",
   "framework": "nextjs",
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/next"
-    }
-  ],
   "functions": {
-    "src/app/api/upscale/route.ts": {
+    "/api/upscale": {
       "maxDuration": 60
     }
   },
@@ -24,7 +18,7 @@
         },
         {
           "key": "Access-Control-Allow-Methods",
-          "value": "POST"
+          "value": "POST, OPTIONS"
         },
         {
           "key": "Access-Control-Allow-Headers",
