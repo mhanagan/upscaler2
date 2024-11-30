@@ -36,13 +36,15 @@ export default function HomePage() {
               React.createElement(Image, {
                 src: "/logo.png",
                 alt: "Logo",
-                width: 600,
-                height: 200,
+                priority: true,
+                width: 0,
+                height: 0,
                 style: {
                   width: '100%',
                   height: 'auto',
                   maxWidth: '600px'
-                }
+                },
+                className: "w-auto h-auto"
               })
             ),
             React.createElement(

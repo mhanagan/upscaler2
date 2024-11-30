@@ -29,7 +29,10 @@ export const ProcessSteps: React.FC<ProcessStepsProps> = ({ currentStep }) => {
             }),
             React.createElement(
               'span',
-              { className: "text-lg font-medium text-white" },
+              { 
+                className: "text-lg font-medium text-white",
+                key: "processing-text"
+              },
               "Processing Image..."
             )
           ]
