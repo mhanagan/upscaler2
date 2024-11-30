@@ -101,7 +101,7 @@ export async function POST(request: Request) {
             output_format: outputFormat
           }
         }
-      ) as ReplicateOutput
+      ) as unknown as ReplicateOutput  // Double assertion to safely convert type
       console.log('Replicate processing complete:', output?.substring(0, 50) + '...')
 
       if (!output) {
