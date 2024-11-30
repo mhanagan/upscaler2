@@ -8,5 +8,22 @@
       "src": "package.json",
       "use": "@vercel/next"
     }
+  ],
+  "functions": {
+    "src/app/api/upscale/route.ts": {
+      "maxDuration": 60
+    }
+  },
+  "routes": [
+    {
+      "source": "/api/upscale",
+      "destination": "/api/upscale",
+      "methods": ["POST"],
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST",
+        "Access-Control-Allow-Headers": "Content-Type"
+      }
+    }
   ]
 } 

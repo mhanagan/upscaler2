@@ -90,18 +90,32 @@ export async function POST(request: Request) {
       const outputFormat = ['jpg', 'png'].includes(inputFormat) ? inputFormat : 'jpg'
 
       console.log('Starting Replicate processing')  // Debug log
-      const output = await replicate.run(
-        "nightmareai/real-esrgan:42fed1c4974146d4d2414e2be2c5277c7fcf05fcc3a73abf41610695738c1d7b",
-        {
-          input: {
-            image: imageUrl,
-            scale: 2,
-            face_enhance: false,
-            tile: 0,
-            output_format: outputFormat
+      let output: ReplicateOutput
+      try {
+        const timeoutPromise = new Promise((_, reject) => {
+          setTimeout(() => reject(new Error('Request timeout')), 50000) // 50 second timeout
+        })
+        
+        const replicatePromise = replicate.run(
+          "nightmareai/real-esrgan:42fed1c4974146d4d2414e2be2c5277c7fcf05fcc3a73abf41610695738c1d7b",
+          {
+            input: {
+              image: imageUrl,
+              scale: 2,
+              face_enhance: false,
+              tile: 0,
+              output_format: outputFormat
+            }
           }
+        ) as unknown as ReplicateOutput
+
+        output = await Promise.race([replicatePromise, timeoutPromise]) as ReplicateOutput
+      } catch (error: any) {
+        if (error.message === 'Request timeout') {
+          throw new Error('Image processing timed out. Please try a smaller image.')
         }
-      ) as unknown as ReplicateOutput  // Double assertion to safely convert type
+        throw error
+      }
       console.log('Replicate processing complete:', output?.substring(0, 50) + '...')
 
       if (!output) {
