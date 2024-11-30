@@ -82,9 +82,9 @@ export const ImageUploader: React.FC = () => {
         }
         
         data = JSON.parse(text)
-      } catch (e) {
+      } catch (e: any) {
         console.error('Parse error:', e)
-        throw new Error(`Failed to parse response: ${e.message}`)
+        throw new Error(`Failed to parse response: ${e?.message || 'Unknown error'}`)
       }
 
       if (!response.ok) {
