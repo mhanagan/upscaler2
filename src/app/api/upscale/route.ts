@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server'
 import Replicate from 'replicate'
 
+// Add type for Replicate output
+type ReplicateOutput = string | null
+
 if (!process.env.REPLICATE_API_TOKEN) {
   throw new Error('Missing Replicate API token')
 }
@@ -98,8 +101,8 @@ export async function POST(request: Request) {
             output_format: outputFormat
           }
         }
-      )
-      console.log('Replicate processing complete:', typeof output === 'string' ? output.substring(0, 50) + '...' : output)
+      ) as ReplicateOutput
+      console.log('Replicate processing complete:', output?.substring(0, 50) + '...')
 
       if (!output) {
         throw new Error('Replicate API returned no output')
