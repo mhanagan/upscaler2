@@ -19,7 +19,7 @@ export const Lightbox: React.FC<LightboxProps> = ({ image, onClose }) => {
       React.createElement(
         'div',
         {
-          className: "relative max-h-[90vh] max-w-[90vw] overflow-hidden rounded-lg bg-black/50",
+          className: "relative max-h-[85vh] max-w-[95vw] md:max-h-[90vh] md:max-w-[90vw] overflow-hidden rounded-lg bg-black/50",
           key: "lightbox-container",
           onClick: (e) => e.stopPropagation()
         },
@@ -27,18 +27,18 @@ export const Lightbox: React.FC<LightboxProps> = ({ image, onClose }) => {
           React.createElement(
             'button',
             {
-              className: "absolute right-2 top-2 text-white/80 hover:text-white",
+              className: "absolute right-3 top-3 text-white/80 hover:text-white p-2",
               onClick: onClose,
               key: "close-button"
             },
-            React.createElement(X, { className: "h-6 w-6" })
+            React.createElement(X, { className: "h-6 w-6 sm:h-7 sm:w-7" })
           ),
           React.createElement(
             'img',
             {
               src: image,
               alt: "Upscaled Image",
-              className: "h-auto w-auto object-contain",
+              className: "h-auto w-auto max-h-[80vh] object-contain",
               onClick: (e) => e.stopPropagation(),
               key: "lightbox-image"
             }

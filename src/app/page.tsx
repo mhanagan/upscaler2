@@ -21,16 +21,16 @@ export default function HomePage() {
     { className: "min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-cyan-900" },
     React.createElement(
       'div',
-      { className: "container mx-auto px-4 py-8" },
+      { className: "container mx-auto px-2 sm:px-4 py-4 sm:py-8" },
       [
         React.createElement(
           'div',
-          { className: "mb-12 text-center", key: "header" },
+          { className: "mb-6 sm:mb-12 text-center", key: "header" },
           [
             React.createElement(
               'div',
               { 
-                className: "flex justify-center mb-8",
+                className: "flex justify-center mb-4 sm:mb-8",
                 key: "logo"
               },
               React.createElement(Image, {
@@ -43,7 +43,7 @@ export default function HomePage() {
                 style: {
                   width: '100%',
                   height: 'auto',
-                  maxWidth: '600px'
+                  maxWidth: '450px'
                 },
                 className: "w-auto h-auto"
               })
@@ -51,7 +51,7 @@ export default function HomePage() {
             React.createElement(
               'h1',
               { 
-                className: "mb-6 bg-gradient-to-r from-white to-cyan-300 bg-clip-text text-5xl font-bold text-transparent",
+                className: "mb-3 sm:mb-6 bg-gradient-to-r from-white to-cyan-300 bg-clip-text text-3xl sm:text-5xl font-bold text-transparent leading-relaxed pb-1",
                 key: "title"
               },
               "AI Image Upscaler"
@@ -67,7 +67,7 @@ export default function HomePage() {
             React.createElement(
               'div',
               {
-                className: "mt-4 text-sm text-blue-200/80",
+                className: "mt-2 sm:mt-4 text-xs sm:text-sm text-blue-200/80",
                 key: "specs"
               },
               [
@@ -79,11 +79,20 @@ export default function HomePage() {
                 React.createElement(
                   'p',
                   { key: "specs-details" },
-                  "Maximum dimensions: 1448x1448 pixels • File size limit: 5MB"
+                  React.createElement(
+                    'span',
+                    { className: "hidden sm:inline" },
+                    "Maximum dimensions: 1448x1448 pixels • File size limit: 5MB"
+                  ),
+                  React.createElement(
+                    'span',
+                    { className: "sm:hidden" },
+                    "Max: 1448x1448px • Limit: 5MB"
+                  )
                 ),
                 React.createElement(
                   'p',
-                  { key: "specs-note", className: "text-xs mt-1 text-blue-200/60" },
+                  { key: "specs-note", className: "text-xs mt-1 text-blue-200/60 max-w-xs mx-auto" },
                   "Note: Total pixel count must not exceed 2,096,704 (e.g., 1448×1448 or 1800×1164)"
                 )
               ]
@@ -95,7 +104,7 @@ export default function HomePage() {
           { className: "mx-auto max-w-4xl", key: "content" },
           React.createElement(
             'div',
-            { className: "rounded-2xl bg-white/10 p-8 backdrop-blur-lg" },
+            { className: "rounded-2xl bg-white/10 p-3 sm:p-8 backdrop-blur-lg" },
             React.createElement(ImageUploader)
           )
         )

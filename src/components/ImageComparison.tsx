@@ -20,7 +20,7 @@ export const ImageComparison: React.FC<ImageComparisonProps> = React.memo(({ ori
     [
       React.createElement(
         'div',
-        { className: "grid gap-8 md:grid-cols-2", key: "comparison" },
+        { className: "grid gap-4 sm:gap-8 md:grid-cols-2", key: "comparison" },
         [
           React.createElement(
             Card,
@@ -31,15 +31,15 @@ export const ImageComparison: React.FC<ImageComparisonProps> = React.memo(({ ori
             [
               React.createElement(
                 CardHeader,
-                { key: "header" },
-                React.createElement(CardTitle, { className: "text-2xl" }, "Original")
+                { key: "header", className: "py-3 px-4 sm:p-6" },
+                React.createElement(CardTitle, { className: "text-xl sm:text-2xl" }, "Original")
               ),
               React.createElement(
                 CardContent,
-                { key: "content", className: "p-8" },
+                { key: "content", className: "p-3 sm:p-8" },
                 React.createElement(
                   'div',
-                  { className: "relative aspect-square w-full overflow-hidden rounded-lg h-[500px]" },
+                  { className: "relative aspect-square w-full overflow-hidden rounded-lg h-[250px] sm:h-[350px] md:h-[500px]" },
                   React.createElement(Image, {
                     src: originalImage,
                     alt: "Original",
@@ -61,13 +61,13 @@ export const ImageComparison: React.FC<ImageComparisonProps> = React.memo(({ ori
             [
               React.createElement(
                 CardHeader,
-                { key: "header" },
+                { key: "header", className: "py-3 px-4 sm:p-6" },
                 React.createElement(
                   CardTitle,
-                  { className: "flex items-center gap-2 text-2xl" },
+                  { className: "flex items-center gap-2 text-xl sm:text-2xl" },
                   [
                     React.createElement(Wand2, { 
-                      className: "h-6 w-6 text-purple-400",
+                      className: "h-5 w-5 sm:h-6 sm:w-6 text-purple-400",
                       key: "icon"
                     }),
                     "Upscaled"
@@ -76,11 +76,11 @@ export const ImageComparison: React.FC<ImageComparisonProps> = React.memo(({ ori
               ),
               React.createElement(
                 CardContent,
-                { key: "content", className: "p-8" },
+                { key: "content", className: "p-3 sm:p-8" },
                 [
                   React.createElement(
                     'div',
-                    { className: "relative aspect-square w-full overflow-hidden rounded-lg h-[500px]" },
+                    { className: "relative aspect-square w-full overflow-hidden rounded-lg h-[250px] sm:h-[350px] md:h-[500px]" },
                     React.createElement(Image, {
                       src: processedImage,
                       alt: "Upscaled",

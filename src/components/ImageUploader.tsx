@@ -167,7 +167,7 @@ export const ImageUploader: React.FC = () => {
               }
             },
             width: "100%",
-            height: "300px"
+            height: "200px"
           })
         )
       ),
@@ -199,11 +199,11 @@ export const ImageUploader: React.FC = () => {
               {
                 onClick: handleDownload,
                 size: "lg",
-                className: "bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600"
+                className: "bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 px-3 sm:px-4 py-2 text-sm sm:text-base"
               },
               [
                 React.createElement(Download, { 
-                  className: "mr-2 h-5 w-5",
+                  className: "mr-1.5 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5",
                   key: "icon"
                 }),
                 "Download Upscaled Image"
