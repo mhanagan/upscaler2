@@ -117,7 +117,7 @@ export async function POST(request: Request) {
             input: {
               image: imageUrl,
               scale: 2,
-              face_enhance: false,
+              face_enhance: true,
               tile: 0,
               output_format: outputFormat
             }
